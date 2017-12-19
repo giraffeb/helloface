@@ -1,0 +1,109 @@
+package org.giraffeb;
+
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import javax.inject.Named;
+import java.io.FileInputStream;
+import java.net.URI;
+import java.util.Properties;
+
+
+/**
+ * @auther giraffeb
+ * MS cognitive emotion api를 사용하는 example code
+ * 사용하는 환경에 맞게 변경함.
+ *
+ * */
+
+@Named
+public class FaceApiSend {
+
+	/**
+	 * ms cognitive api : 얼굴인식 + 감정인식 api
+	 * @param byte[] img : 사용자에게 받은 이미지 byte array
+	 * */
+
+	public String faceSend(byte[] img) {
+		HttpClient httpclient = HttpClients.createDefault();
+		String result = null;
+		Properties msApiProperties = new Properties();
+		try {
+			msApiProperties.load(new FileInputStream("src/main/resources/ms_api.properties"));
+			String apiKey = msApiProperties.getProperty("ms.cognitive.emotion.key");
+
+			URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
+
+			URI uri = builder.build();
+			HttpPost request = new HttpPost(uri);
+			request.setHeader("Content-Type", "application/octet-stream");
+			request.setHeader("Ocp-Apim-Subscription-Key", apiKey);
+
+			// Request body
+			ByteArrayEntity bEntity = new ByteArrayEntity(img);
+			request.setEntity(bEntity);
+
+			HttpResponse response = httpclient.execute(request);
+			HttpEntity entity = response.getEntity();
+
+			if (entity != null) {
+				result = EntityUtils.toString(entity);
+				System.out.println(result);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+
+
+	/**
+	 * @auther giraffeb
+	 *
+	 * ms cognitive api : 언굴인식 api
+	 *
+	 * @param byte[] img : 사용자가 보낸 이미지 byte array
+	 *
+	 * */
+	public String faceDetect(byte[] img) {
+		Properties msApiProperties = new Properties();
+		HttpClient httpclient = HttpClients.createDefault();
+		String result = null;
+		try {
+			msApiProperties.load(new FileInputStream("src/main/resources/ms_api.properties"));
+			String apiKey = msApiProperties.getProperty("ms.cognitive.emotion.key");
+			URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/face/v1.0/detect");
+
+			builder.setParameter("returnFaceId", "true");
+			builder.setParameter("returnFaceLandmarks", "false");
+
+			URI uri = builder.build();
+			HttpPost request = new HttpPost(uri);
+			request.setHeader("Content-Type", "application/octet-stream");
+			request.setHeader("Ocp-Apim-Subscription-Key", apiKey);
+
+			// Request body
+			ByteArrayEntity reqEntity = new ByteArrayEntity(img);
+			request.setEntity(reqEntity);
+
+			HttpResponse response = httpclient.execute(request);
+			HttpEntity entity = response.getEntity();
+
+			if (entity != null) {
+				result = EntityUtils.toString(entity);
+				System.out.println(result);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+
+}
