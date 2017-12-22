@@ -9,6 +9,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 
 import javax.inject.Named;
 import java.io.FileInputStream;
@@ -17,10 +18,8 @@ import java.util.Properties;
 
 
 /**
- * @auther giraffeb
  * MS cognitive emotion api를 사용하는 example code
  * 사용하는 환경에 맞게 변경함.
- *
  * */
 
 @Named
@@ -28,10 +27,10 @@ public class FaceApiSend {
 
 	/**
 	 * ms cognitive api : 얼굴인식 + 감정인식 api
-	 * @param byte[] img : 사용자에게 받은 이미지 byte array
+	 * @param  imgByteArray : 사용자에게 받은 이미지 byte array
 	 * */
 
-	public String faceSend(byte[] img) {
+	public String msEmotionApi(byte[] imgByteArray) {
 		HttpClient httpclient = HttpClients.createDefault();
 		String result = null;
 		Properties msApiProperties = new Properties();
@@ -47,7 +46,7 @@ public class FaceApiSend {
 			request.setHeader("Ocp-Apim-Subscription-Key", apiKey);
 
 			// Request body
-			ByteArrayEntity bEntity = new ByteArrayEntity(img);
+			ByteArrayEntity bEntity = new ByteArrayEntity(imgByteArray);
 			request.setEntity(bEntity);
 
 			HttpResponse response = httpclient.execute(request);
@@ -63,13 +62,21 @@ public class FaceApiSend {
 		return result;
 	}
 
+	public JSONArray msEmotionApiToJSonArray(byte[] imgByteArray){
+		JSONArray analysedEmotionJsonArray = null;
+
+		String emotionAnalysisResult = msEmotionApi(imgByteArray);
+		if(emotionAnalysisResult != null){
+			analysedEmotionJsonArray = new JSONArray(emotionAnalysisResult);
+		}
+		return analysedEmotionJsonArray;
+	}
 
 	/**
-	 * @auther giraffeb
 	 *
 	 * ms cognitive api : 언굴인식 api
 	 *
-	 * @param byte[] img : 사용자가 보낸 이미지 byte array
+	 * @param  img : 사용자가 보낸 이미지 byte array
 	 *
 	 * */
 	public String faceDetect(byte[] img) {
