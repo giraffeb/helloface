@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +36,7 @@ import java.util.Map;
  *
  * */
 
-
+//TODO : 메소드들을 유틸리티 클래스로 분리할지 판단할 것.
 @Controller
 public class FaceController {
 
@@ -82,6 +84,25 @@ public class FaceController {
 	}
 
 
+	@RequestMapping("/faceuri")
+    public String getUri(@Param("uri") String uri, Model model){
+//        byte[] resultImageByteArr;
+//        String base64EncodedImageByteArray;
+//
+//
+//        BufferedImage userImage = getUriImageToBufferedImage(uri);
+//        resultImageByteArr = getEmotionImageByteArrayFromUserImage(userImage);
+//        base64EncodedImageByteArray = byteArrayToBase64String(resultImageByteArr);
+//
+//        model.addAttribute("file", base64EncodedImageByteArray);
+
+
+        model.addAttribute("file",  uriUpload(uri).get("file"));
+
+	    return "result";
+    }
+
+
 	/**
      * 카카오톡 서버에서 받은 이미지 주소로
      * 이미지를 저장하고 적당하게 리사이징해서
@@ -91,18 +112,10 @@ public class FaceController {
 	public Map<String, Object> uriUpload(String uri) {
 		HashMap<String, Object> model = new HashMap<String, Object>();
 
-		String base64EncodedImageByteArray = null;
-        byte[] resultImageByteArr = null;
-        BufferedImage userImage = null;
+        BufferedImage userImage = getUriImageToBufferedImage(uri);
 
-        try{
-            userImage = getUriImageToBufferedImage(uri);
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        resultImageByteArr = getEmotionImageByteArrayFromUserImage(userImage);
-        base64EncodedImageByteArray = byteArrayToBase64String(resultImageByteArr);
+        byte[] resultImageByteArr = getEmotionImageByteArrayFromUserImage(userImage);
+        String base64EncodedImageByteArray = byteArrayToBase64String(resultImageByteArr);
 
 		model.put("file", base64EncodedImageByteArray);
 		return model;
@@ -120,7 +133,7 @@ public class FaceController {
 		try {
 			URL url = new URL(uri);
 			InputStream is = url.openStream();
-            bfdimg = ImageIO.read(f.getInputStream());
+            bfdimg = ImageIO.read(is);
 
 
 		} catch (IOException e) {
@@ -307,16 +320,15 @@ public class FaceController {
 			* */
             if (userImageWidth > 640 || userImageHeight > 640) {
                 resizedUserImage = resizeBufferedImage(userImage);
-                imgByteArr = bufferedImageToByteArray(resizedUserImage);
             }
 			/*
 			* 이미지크기가 640보다 작다면 그냥 보낸다.
 			* */
             //TODO-LIST : 표정분석이 안되는 이미지 혹은 너무 작은 이미지에 대한 예외처리가 필요.
             else {
-                imgByteArr = bufferedImageToByteArray(userImage);
+                resizedUserImage = userImage;
             }
-
+            imgByteArr = bufferedImageToByteArray(resizedUserImage);
             // EMOTION API다녀오기 : JSON type String
             // 인식된 얼굴에 번호 아이디 부여, 좌표값 : 인식된 얼굴의 위치를 나타내는 사각형 , 각 얼굴의 표정 정보
             JSONArray analysedEmotionJsonArray = fas.msEmotionApiToJSonArray(imgByteArr);
@@ -328,10 +340,6 @@ public class FaceController {
                 //이렇게 if-else말고 아래서서 정리하고 만들어도 된다.
             }
             else {
-                //이미지가 640보다 작아 리사이즈를 하지 않은 경우
-                if (resizedUserImage == null) {
-                    resizedUserImage = userImage;
-                }
 
                 //BufferedImage를 편집하기 위해 그래픽 객체를 얻음.
                 //resizedImage위에 사각형을 그리기 위해서 다시 그래픽 객체를 얻어옴.

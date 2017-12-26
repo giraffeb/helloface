@@ -10,6 +10,7 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.inject.Named;
 import java.io.FileInputStream;
@@ -25,6 +26,9 @@ import java.util.Properties;
 @Named
 public class FaceApiSend {
 
+	//application.properties에 저장함.
+	@Value("${ms.cognitive.emotion.key}")
+	String apiKey;
 	/**
 	 * ms cognitive api : 얼굴인식 + 감정인식 api
 	 * @param  imgByteArray : 사용자에게 받은 이미지 byte array
@@ -35,8 +39,6 @@ public class FaceApiSend {
 		String result = null;
 		Properties msApiProperties = new Properties();
 		try {
-			msApiProperties.load(new FileInputStream("src/main/resources/ms_api.properties"));
-			String apiKey = msApiProperties.getProperty("ms.cognitive.emotion.key");
 
 			URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
 
@@ -84,8 +86,7 @@ public class FaceApiSend {
 		HttpClient httpclient = HttpClients.createDefault();
 		String result = null;
 		try {
-			msApiProperties.load(new FileInputStream("src/main/resources/ms_api.properties"));
-			String apiKey = msApiProperties.getProperty("ms.cognitive.emotion.key");
+
 			URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/face/v1.0/detect");
 
 			builder.setParameter("returnFaceId", "true");

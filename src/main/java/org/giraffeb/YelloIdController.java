@@ -111,6 +111,7 @@ public class YelloIdController {
 		System.out.println("uri : "+uri);
 		HashMap<String,Object> hm = (HashMap<String, Object>)fac.uriUpload(uri);
 		model.addAttribute("file", hm.get("file"));
+		System.out.println(">>>file" + hm.get("file"));
 		
 		return "emotion";
 	}
