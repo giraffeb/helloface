@@ -11,9 +11,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import javax.inject.Named;
-import java.io.FileInputStream;
 import java.net.URI;
 import java.util.Properties;
 
@@ -23,7 +22,7 @@ import java.util.Properties;
  * 사용하는 환경에 맞게 변경함.
  * */
 
-@Named
+@Component
 public class FaceApiSend {
 
 	//application.properties에 저장함.

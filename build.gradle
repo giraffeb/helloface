@@ -1,113 +1,59 @@
-//group 'org.giraffeb'
-//version '1.0-SNAPSHOT'
-//
-//apply plugin: 'java'
-//
-//sourceCompatibility = 1.8
-//
-//repositories {
-//    mavenCentral()
-//}
-//
-//dependencies {
-//    testCompile group: 'junit', name: 'junit', version: '4.12'
-//    compile("org.springframework.boot:spring-boot-starter-web:1.5.9.RELEASE")
-//}
+//Gradle 4.4 DSL reference -> https://docs.gradle.org/4.4/dsl/
 
-
-//##newLine
-
-buildscript {
-    ext {
-        springBootVersion = '1.5.2.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+//Non-core plugins script block -> plugins{}
+//you can search these community plugins : this site -> https://plugins.gradle.org/
+plugins {
+    id "org.springframework.boot" version "2.0.1.RELEASE"
 }
 
+//Gradle core plugins
 apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'war'
 
 
-version = '0.0.1-SNAPSHOT'
+//Java version
 sourceCompatibility = 1.8
 
+
+//repositories
 repositories {
     mavenCentral()
 }
 
 
-//jar {
-//   manifest {
-//        attributes  'Title': 'Reqeust And Header Tester', 'Version': 1.0, 'Main-Class': 'org.giraffeb.Test01Application'
-//    }
-//    baseName 'face'
-//    archiveName 'face.jar'
-//    dependsOn configurations.runtime
-//    from {
-//        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
-//    }
-//}
-
+//embedded tomcat
 configurations {
     providedRuntime
 }
-1
 
+//bootWar configurations
+//bootWar {
+//    classifier = 'boot'
+//}
+
+//dependencies
 dependencies {
-
-    //compile files("${System.properties['java.home']}/./lib/tools.jar")
-
-    compile('org.springframework.boot:spring-boot-starter-aop')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-jdbc')
-    compile('org.springframework.boot:spring-boot-starter-mobile')
-    //compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.boot:spring-boot-starter-social-facebook')
-    compile('org.springframework.boot:spring-boot-starter-social-twitter')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-websocket')
-
-    compile group: 'com.mortennobel', name: 'java-image-scaling', version: '0.8.6'
-
-
-
-    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-    compile('javax.servlet:jstl:1.2')
-
-    // https://mvnrepository.com/artifact/net.iharder/base64
-    compile group: 'net.iharder', name: 'base64', version: '2.3.9'
-
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
-
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
-
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
-
-    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
-    //아닐수도
-    //compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.0.M5'
-
-    // https://mvnrepository.com/artifact/org.springframework/spring-mock
-    compile group: 'org.springframework', name: 'spring-mock', version: '2.0.8'
-
-
-    compile 'org.json:json:20160212'
-
-
-
-    runtime('com.h2database:h2')
-    runtime('mysql:mysql-connector-java')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    compile files("${System.properties['java.home']}/./lib/tools.jar")
+
+    compile group: 'com.mortennobel', name: 'java-image-scaling', version: '0.8.6'
+    compile('javax.servlet:jstl:1.2')
+    //embedded tomcat jasper
+    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+
+    //when i execute embeded tomcat -> servlet lifecycle error issue
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+//    provided group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+
+    compile group: 'net.iharder', name: 'base64', version: '2.3.9'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+    compile 'org.json:json:20160212'
 
 }

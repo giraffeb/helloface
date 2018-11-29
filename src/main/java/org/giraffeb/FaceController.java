@@ -3,10 +3,8 @@ package org.giraffeb;
 import com.mortennobel.imagescaling.DimensionConstrain;
 import com.mortennobel.imagescaling.ResampleOp;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.Buffer;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -85,7 +82,7 @@ public class FaceController {
 
 
 	@RequestMapping("/faceuri")
-    public String getUri(@Param("uri") String uri, Model model){
+    public String getUri(@RequestParam("uri") String uri, Model model){
 //        byte[] resultImageByteArr;
 //        String base64EncodedImageByteArray;
 //
