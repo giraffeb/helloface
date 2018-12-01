@@ -1,4 +1,4 @@
-package org.giraffeb;
+package org.giraffeb.utils;
 
 
 import org.apache.http.HttpEntity;
@@ -39,7 +39,7 @@ public class FaceApiSend {
 		Properties msApiProperties = new Properties();
 		try {
 
-			URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
+			URIBuilder builder = new URIBuilder("https://eastus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
 
 			URI uri = builder.build();
 			HttpPost request = new HttpPost(uri);
@@ -63,10 +63,18 @@ public class FaceApiSend {
 		return result;
 	}
 
+
+	/**
+	 * faceDetect에서 가져온 결과값을 분석해서 Json Array로 변경해주기
+	 * @param imgByteArray
+	 * @return
+	 */
 	public JSONArray msEmotionApiToJSonArray(byte[] imgByteArray){
 		JSONArray analysedEmotionJsonArray = null;
 
-		String emotionAnalysisResult = msEmotionApi(imgByteArray);
+//		String emotionAnalysisResult = msEmotionApi(imgByteArray);
+		String emotionAnalysisResult = faceDetect(imgByteArray);
+
 		if(emotionAnalysisResult != null){
 			analysedEmotionJsonArray = new JSONArray(emotionAnalysisResult);
 		}
@@ -86,10 +94,11 @@ public class FaceApiSend {
 		String result = null;
 		try {
 
-			URIBuilder builder = new URIBuilder("https://westus.api.cognitive.microsoft.com/face/v1.0/detect");
+			URIBuilder builder = new URIBuilder("https://eastus.api.cognitive.microsoft.com/face/v1.0/detect");
 
 			builder.setParameter("returnFaceId", "true");
 			builder.setParameter("returnFaceLandmarks", "false");
+			builder.setParameter("returnFaceAttributes", "emotion");
 
 			URI uri = builder.build();
 			HttpPost request = new HttpPost(uri);

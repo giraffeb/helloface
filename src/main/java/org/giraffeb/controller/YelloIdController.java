@@ -1,5 +1,8 @@
-package org.giraffeb;
+package org.giraffeb.controller;
 
+import org.giraffeb.controller.FaceController;
+import org.giraffeb.utils.FaceApiSend;
+import org.giraffeb.utils.ImageConvertor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +24,11 @@ import java.util.Map;
 public class YelloIdController {
 
 	@Autowired
-	FaceController fac;
-	
+    FaceController fac;
+
+	@Autowired
+	ImageConvertor ic;
+
 	@RequestMapping(path="/test", method=RequestMethod.GET)
 	public String getTestPage(){
 		return "test";
@@ -109,7 +115,7 @@ public class YelloIdController {
 	public String message(@RequestParam Map<String, Object> params, Model model){
 		String uri = (String)params.get("uri");
 		System.out.println("uri : "+uri);
-		HashMap<String,Object> hm = (HashMap<String, Object>)fac.uriUpload(uri);
+		HashMap<String,Object> hm = (HashMap<String, Object>)ic.uriUpload(uri);
 		model.addAttribute("file", hm.get("file"));
 		System.out.println(">>>file" + hm.get("file"));
 		

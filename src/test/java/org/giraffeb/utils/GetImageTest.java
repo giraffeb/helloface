@@ -1,0 +1,147 @@
+package org.giraffeb.utils;
+
+
+import org.giraffeb.implementation.FaceApiTemplateImp;
+import org.giraffeb.implementation.GetImageTemplateImp;
+import org.json.JSONArray;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+
+@SpringBootTest
+@RunWith(SpringRunner.class)
+public class GetImageTest {
+
+    @Autowired
+    GetImageTemplateImp gi;
+
+    @Autowired
+    FaceApiTemplateImp fat;
+
+    @Autowired
+    ImageConvertor ic;
+
+    @Autowired
+    FaceImageDraw fid;
+
+
+    @Test
+    public void hello(){
+
+        Path path = Paths.get("/Users/parkraewook/IdeaProjects/helloface/src/test/java/org/giraffeb/utils/aaa.jpg");
+        String name = "aaa.jpg";
+        String originalFileName = "aaa.jpg";
+        String contentType = "image/jpeg";
+
+        byte[] content = null;
+        try {
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
+        }
+        MultipartFile result = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+
+        byte[] bytes = gi.getImage(result);
+        String temp = ic.byteArrayToBase64String(bytes);
+
+        System.out.println(temp);
+
+    }
+
+    @Test
+    public void faceApiTest(){
+        Path path = Paths.get("/Users/parkraewook/IdeaProjects/helloface/src/test/java/org/giraffeb/utils/aaa.jpg");
+        String name = "aaa.jpg";
+        String originalFileName = "aaa.jpg";
+        String contentType = "image/jpeg";
+
+        byte[] content = null;
+        try {
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
+        }
+        MultipartFile result = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+
+        byte[] bytes = gi.getImage(result);
+
+        String temp = fat.sendApi(bytes);
+        System.out.println(temp);
+
+    }
+
+
+    @Test
+    public void drawRectangleTest() throws IOException {
+        Path path = Paths.get("/Users/parkraewook/IdeaProjects/helloface/src/test/java/org/giraffeb/utils/aaa.jpg");
+        String name = "aaa.jpg";
+        String originalFileName = "aaa.jpg";
+        String contentType = "image/jpeg";
+
+        byte[] content = null;
+        try {
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
+        }
+        MultipartFile result = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+
+        BufferedImage originalImg = ic.convertMultifileToBufferedImage(result);
+
+        byte[] bytes = gi.getImage(result);
+        String temp = fat.sendApi(bytes);
+        JSONArray array = fat.parseResult(temp);
+
+        BufferedImage resultImage = fid.drawFaceRectangles(array, originalImg);
+        File target = new File("result.jpg");
+        ImageIO.write(resultImage, "jpg", target);
+
+    }
+
+
+    @Test
+    public void totlaFaceApiTest() throws IOException {
+        Path path = Paths.get("/Users/parkraewook/IdeaProjects/helloface/src/test/java/org/giraffeb/utils/aaa.jpg");
+        String name = "aaa.jpg";
+        String originalFileName = "aaa.jpg";
+        String contentType = "image/jpeg";
+
+        byte[] content = null;
+        try {
+            content = Files.readAllBytes(path);
+        } catch (final IOException e) {
+        }
+        MultipartFile result = new MockMultipartFile(name,
+                originalFileName, contentType, content);
+
+        BufferedImage originalImg = ic.convertMultifileToBufferedImage(result);
+
+        byte[] bytes = gi.getImage(result);
+        String temp = fat.sendApi(bytes);
+        JSONArray array = fat.parseResult(temp);
+
+        BufferedImage rectImage = fid.drawFaceRectangles(array, originalImg);
+
+        BufferedImage emotionImage = new BufferedImage(rectImage.getWidth(), rectImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+        emotionImage = fid.drawFacesData(array, emotionImage);
+        BufferedImage resultImage = fid.mergeImages(rectImage, emotionImage);
+
+        File target = new File("result.jpg");
+        ImageIO.write(resultImage, "jpg", target);
+
+
+    }
+}
