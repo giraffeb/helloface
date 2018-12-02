@@ -133,7 +133,7 @@ public class GetImageTest {
 //    }
 
     @Test
-    public void jenkinsTest(){
+    public void jenkinsTest2(){
         System.out.println("just test commit.");
     }
 }
