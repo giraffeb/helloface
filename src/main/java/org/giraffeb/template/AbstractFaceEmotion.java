@@ -1,11 +1,5 @@
 package org.giraffeb.template;
 
-import org.giraffeb.utils.ImageConvertor;
-import org.json.JSONArray;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.awt.image.BufferedImage;
-
 public abstract class AbstractFaceEmotion {
 
 

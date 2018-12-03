@@ -1,7 +1,5 @@
 package org.giraffeb.controller;
 
-import org.giraffeb.controller.FaceController;
-import org.giraffeb.utils.FaceApiSend;
 import org.giraffeb.utils.ImageConvertor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

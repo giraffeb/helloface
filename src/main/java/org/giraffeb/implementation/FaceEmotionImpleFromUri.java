@@ -1,8 +1,10 @@
 package org.giraffeb.implementation;
 
 import org.giraffeb.template.AbstractFaceEmotion;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+@Qualifier("feiu")
 @Component
 public class FaceEmotionImpleFromUri extends FaceEmotionImplFromMultiPartFile {
 

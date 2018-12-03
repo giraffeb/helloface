@@ -7,11 +7,13 @@ import org.giraffeb.utils.FaceImageDraw;
 import org.giraffeb.utils.ImageConvertor;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
 
+@Qualifier("fati")
 @Component
 public class FaceEmotionImplFromMultiPartFile extends AbstractFaceEmotion {
 
