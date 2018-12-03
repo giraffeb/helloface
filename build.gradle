@@ -60,7 +60,7 @@ dependencies {
 
 task copyClientLoc(type: Copy) {
     from "build/libs/"
-    into "/Users/parkraewook/Documents"
+    into "/home/jenkins/tomcat/webapps"
     include "helloface.war"
     fileMode = 0770
 }
