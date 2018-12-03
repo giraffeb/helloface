@@ -108,7 +108,7 @@ public class YelloIdController {
 
 			jsonObj.getJSONObject("message").put("message_button", new JSONObject());
 			jsonObj.getJSONObject("message").getJSONObject("message_button").put("label", "반갑습니다.");
-			jsonObj.getJSONObject("message").getJSONObject("message_button").put("url","https://"+this.domainName+"/"+this.appName+"/face/emotion?uri="+uri);
+			jsonObj.getJSONObject("message").getJSONObject("message_button").put("url","https://"+this.domainName+"/"+this.appName+"/emotion?uri="+uri);
 		}
 		
 		

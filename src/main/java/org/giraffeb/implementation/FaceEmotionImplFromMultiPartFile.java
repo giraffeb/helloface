@@ -28,17 +28,17 @@ public class FaceEmotionImplFromMultiPartFile extends AbstractFaceEmotion {
     @Autowired
     ImageConvertor ic;
 
-    private MultipartFile multiPartFile;
+    protected MultipartFile multiPartFile;
 
-    private BufferedImage originalBufferedImage;
-    private byte[] originalImageBytes;
-    private BufferedImage emotionPartsImage;
-    private String faceApiResultString;
-    private BufferedImage resultImage;
+    protected BufferedImage originalBufferedImage;
+    protected byte[] originalImageBytes;
+    protected BufferedImage emotionPartsImage;
+    protected String faceApiResultString;
+    protected BufferedImage resultImage;
 
     //TODO: faceApiInfo를 파싱할때 rectangle과 emotions를 분리해서 만들기
-    private JSONArray faceApiInfo;
-    private String resultImageString;
+    protected JSONArray faceApiInfo;
+    protected String resultImageString;
 
     public void setMultiPartFile(MultipartFile multiPartFile) {
         this.multiPartFile = multiPartFile;

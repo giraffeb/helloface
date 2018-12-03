@@ -2,6 +2,9 @@ package org.giraffeb.utils;
 
 import com.mortennobel.imagescaling.DimensionConstrain;
 import com.mortennobel.imagescaling.ResampleOp;
+import org.giraffeb.implementation.FaceEmotionImplFromMultiPartFile;
+import org.giraffeb.implementation.FaceEmotionImpleFromUri;
+import org.giraffeb.template.AbstractFaceEmotion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,12 @@ public class ImageConvertor {
 
     @Autowired
     FaceImageDraw fid;
+
+//    @Autowired
+//    FaceEmotionImplFromMultiPartFile fati;
+
+    @Autowired
+    FaceEmotionImpleFromUri feiu;
 
     /**
      * uri주소의 이미지를 받아와서
@@ -153,10 +162,10 @@ public class ImageConvertor {
 
         BufferedImage userImage = getUriImageToBufferedImage(uri);
 
-        byte[] resultImageByteArr = fid.getEmotionImageByteArrayFromUserImage(userImage);
-        String base64EncodedImageByteArray = byteArrayToBase64String(resultImageByteArr);
+        feiu.setUri(uri);
+        feiu.doProcess();
 
-        model.put("file", base64EncodedImageByteArray);
+        model.put("file", feiu.getRestultImageString());
         return model;
     }
 }
