@@ -42,6 +42,39 @@ public class FaceEmotionImplFromMultiPartFile extends AbstractFaceEmotion {
     protected JSONArray faceApiInfo;
     protected String resultImageString;
 
+
+    public MultipartFile getMultiPartFile() {
+        return multiPartFile;
+    }
+
+    public BufferedImage getOriginalBufferedImage() {
+        return originalBufferedImage;
+    }
+
+    public byte[] getOriginalImageBytes() {
+        return originalImageBytes;
+    }
+
+    public BufferedImage getEmotionPartsImage() {
+        return emotionPartsImage;
+    }
+
+    public String getFaceApiResultString() {
+        return faceApiResultString;
+    }
+
+    public BufferedImage getResultImage() {
+        return resultImage;
+    }
+
+    public JSONArray getFaceApiInfo() {
+        return faceApiInfo;
+    }
+
+    public String getResultImageString() {
+        return resultImageString;
+    }
+
     public void setMultiPartFile(MultipartFile multiPartFile) {
         this.multiPartFile = multiPartFile;
     }

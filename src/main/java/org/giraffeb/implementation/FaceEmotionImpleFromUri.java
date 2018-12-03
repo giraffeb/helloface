@@ -18,6 +18,6 @@ public class FaceEmotionImpleFromUri extends FaceEmotionImplFromMultiPartFile {
     @Override
     protected AbstractFaceEmotion convertOriginalBufferedImage() {
         this.originalBufferedImage = ic.getUriImageToBufferedImage(this.uri);
-        return super.convertOriginalBufferedImage();
+        return this;
     }
 }

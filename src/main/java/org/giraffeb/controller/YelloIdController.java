@@ -126,9 +126,10 @@ public class YelloIdController {
 	public String message(@RequestParam Map<String, Object> params, Model model){
 		String uri = (String)params.get("uri");
 		System.out.println("uri : "+uri);
+
 		HashMap<String,Object> hm = (HashMap<String, Object>)ic.uriUpload(uri);
 		model.addAttribute("file", hm.get("file"));
-		System.out.println(">>>file" + hm.get("file"));
+//		System.out.println(">>>file" + hm.get("file"));
 		
 		return "emotion";
 	}

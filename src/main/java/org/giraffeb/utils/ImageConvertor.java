@@ -162,8 +162,6 @@ public class ImageConvertor {
     public Map<String, Object> uriUpload(String uri) {
         HashMap<String, Object> model = new HashMap<String, Object>();
 
-        BufferedImage userImage = getUriImageToBufferedImage(uri);
-
         feiu.setUri(uri);
         feiu.doProcess();
 
