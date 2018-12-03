@@ -89,6 +89,8 @@ public class YelloIdController {
 
 	@RequestMapping(path="/message", method=RequestMethod.POST, produces={"application/json; charset=UTF-8"})
 	public @ResponseBody String getTest2(@RequestBody String json){
+		System.out.println(json);
+
 		JSONObject map = new JSONObject(json);
 		System.out.println(map.get("user_key"));
 		System.out.println(map.get("type"));
