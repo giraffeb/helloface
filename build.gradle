@@ -57,3 +57,10 @@ dependencies {
     compile 'org.json:json:20160212'
 
 }
+
+task copyClientLoc(type: Copy) {
+    from "build/libs/"
+    into "/Users/parkraewook/Documents"
+    include "helloface.war"
+    fileMode = 0770
+}
