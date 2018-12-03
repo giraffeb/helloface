@@ -5,6 +5,7 @@ import org.giraffeb.utils.FaceApiSend;
 import org.giraffeb.utils.ImageConvertor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 /**
  * @auther giraffeb
@@ -29,11 +32,21 @@ public class YelloIdController {
 	@Autowired
 	ImageConvertor ic;
 
+
+	@Value("spring.application.name")
+	private String appName;
+
+	@Value("my.domain.address")
+	private String domainName;
+
+
+
 	@RequestMapping(path="/test", method=RequestMethod.GET)
 	public String getTestPage(){
 		return "test";
 	}
-	
+
+
 
 
 	/**
@@ -95,7 +108,7 @@ public class YelloIdController {
 
 			jsonObj.getJSONObject("message").put("message_button", new JSONObject());
 			jsonObj.getJSONObject("message").getJSONObject("message_button").put("label", "반갑습니다.");
-			jsonObj.getJSONObject("message").getJSONObject("message_button").put("url","https://giraffeb.org/face/emotion?uri="+uri);
+			jsonObj.getJSONObject("message").getJSONObject("message_button").put("url","https://"+this.domainName+"/"+this.appName+"/face/emotion?uri="+uri);
 		}
 		
 		
