@@ -4,6 +4,7 @@
 //you can search these community plugins : this site -> https://plugins.gradle.org/
 plugins {
     id "org.springframework.boot" version "2.0.1.RELEASE"
+    id 'jacoco'
 }
 
 //Gradle core plugins
@@ -13,8 +14,10 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'war'
 
 
+
 //Java version
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 
 //repositories
@@ -32,6 +35,14 @@ configurations {
 //bootWar {
 //    classifier = 'boot'
 //}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
 
 //dependencies
 dependencies {
@@ -72,3 +83,4 @@ task copyClientLoc(type: Copy) {
     include "helloface.war"
     fileMode = 0770
 }
+
