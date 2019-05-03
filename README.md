@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/giraffeb/helloface.svg?branch=master)](https://travis-ci.org/giraffeb/helloface)
+[![codecov](https://codecov.io/gh/giraffeb/helloface/branch/master/graph/badge.svg)](https://codecov.io/gh/giraffeb/helloface)
+
 ## 카톡플러스 친구 with MS emotion api
 카카오톡 친구 검색 : devhiki
 
