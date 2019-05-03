@@ -36,12 +36,7 @@ configurations {
 //    classifier = 'boot'
 //}
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
-}
+
 
 
 //dependencies
@@ -74,8 +69,17 @@ dependencies {
 //    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
 //    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
-
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport
+
 
 task copyClientLoc(type: Copy) {
     from "build/libs/"
