@@ -5,6 +5,7 @@
 plugins {
     id "org.springframework.boot" version "2.0.1.RELEASE"
     id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.8.2'
 }
 
 //Gradle core plugins
@@ -12,6 +13,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'war'
+
 
 
 
