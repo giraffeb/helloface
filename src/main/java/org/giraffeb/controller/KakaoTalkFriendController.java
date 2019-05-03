@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -62,6 +64,31 @@ public class KakaoTalkFriendController {
 	 *
 	 * @return String emoition api 요청 주소
 	 * */
+
+	/**
+	 * 기능 리스트를 버튼으로 제공해 주는 api인데, 필요 없음. 기능 제공 안함.
+	 */
+
+	/**
+	 * kakao smart chatting api
+	 * 사용자가 미리 설정된 키워드를 사용자에게 보여주기 위한 api
+	 *
+	 * @return String message list
+	 * */
+	@RequestMapping(path="/keyboard", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> homeKeyboard(Model model){
+		Map<String, Object> jsonObject =  new HashMap<String, Object>();
+		jsonObject.put("type", "buttons");
+		ArrayList<String> myList = new ArrayList<>();
+		myList.add("선택 1");
+		myList.add("선택 2");
+		myList.add("선택 3");
+		jsonObject.put("buttons", myList);
+
+		return jsonObject;
+	}
+
+
 
 	@RequestMapping(path="/message", method=RequestMethod.POST, produces={"application/json; charset=UTF-8"})
 	public @ResponseBody String getTest2(@RequestBody String json){
