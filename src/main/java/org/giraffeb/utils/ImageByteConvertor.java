@@ -2,11 +2,8 @@ package org.giraffeb.utils;
 
 import com.mortennobel.imagescaling.DimensionConstrain;
 import com.mortennobel.imagescaling.ResampleOp;
-import org.giraffeb.implementation.FaceEmotionImplFromMultiPartFile;
-import org.giraffeb.implementation.FaceEmotionImpleFromUri;
-import org.giraffeb.template.AbstractFaceEmotion;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,21 +15,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
-public class ImageConvertor {
+public class ImageByteConvertor {
 
-    @Autowired
-    FaceImageDraw fid;
 
-//    @Autowired
-//    FaceEmotionImplFromMultiPartFile fati;
-
-    @Qualifier("feiu")
-    @Autowired
-    FaceEmotionImpleFromUri feiu;
+    private Logger logger = LoggerFactory.getLogger(ImageByteConvertor.class);
 
     /**
      * uri주소의 이미지를 받아와서
@@ -148,24 +136,4 @@ public class ImageConvertor {
         return resizedImage;
     }
 
-
-
-
-
-
-    /**
-     * 카카오톡 서버에서 받은 이미지 주소로
-     * 이미지를 저장하고 적당하게 리사이징해서
-     * ms api로 넘김.
-     *
-     * */
-    public Map<String, Object> uriUpload(String uri) {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-
-        feiu.setUri(uri);
-        feiu.doProcess();
-
-        model.put("file", feiu.getRestultImageString());
-        return model;
-    }
 }

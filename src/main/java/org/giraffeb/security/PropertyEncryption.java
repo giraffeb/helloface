@@ -3,11 +3,15 @@ package org.giraffeb.security;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PropertyEncryption {
+
+    private Logger logger = LoggerFactory.getLogger(PropertyEncryption.class);
 
     //적용해보기.
     @Bean("jasyptStringEncryptor")

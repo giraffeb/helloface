@@ -10,6 +10,8 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,56 +25,22 @@ import java.util.Properties;
  * */
 
 @Component
-public class FaceApiSend {
+public class MsFaceAPI {
+
+	private Logger logger = LoggerFactory.getLogger(MsFaceAPI.class);
 
 	//application.properties에 저장함.
 	@Value("${ms.cognitive.emotion.key}")
 	String apiKey;
-	/**
-	 * ms cognitive api : 얼굴인식 + 감정인식 api
-	 * @param  imgByteArray : 사용자에게 받은 이미지 byte array
-	 * */
-
-	public String msEmotionApi(byte[] imgByteArray) {
-		HttpClient httpclient = HttpClients.createDefault();
-		String result = null;
-		Properties msApiProperties = new Properties();
-		try {
-
-			URIBuilder builder = new URIBuilder("https://eastus.api.cognitive.microsoft.com/emotion/v1.0/recognize");
-
-			URI uri = builder.build();
-			HttpPost request = new HttpPost(uri);
-			request.setHeader("Content-Type", "application/octet-stream");
-			request.setHeader("Ocp-Apim-Subscription-Key", apiKey);
-
-			// Request body
-			ByteArrayEntity bEntity = new ByteArrayEntity(imgByteArray);
-			request.setEntity(bEntity);
-
-			HttpResponse response = httpclient.execute(request);
-			HttpEntity entity = response.getEntity();
-
-			if (entity != null) {
-				result = EntityUtils.toString(entity);
-				System.out.println(result);
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return result;
-	}
-
 
 	/**
 	 * faceDetect에서 가져온 결과값을 분석해서 Json Array로 변경해주기
 	 * @param imgByteArray
 	 * @return
 	 */
-	public JSONArray msEmotionApiToJSonArray(byte[] imgByteArray){
+	public JSONArray sendToFaceDetectAPIWithImageByteArray(byte[] imgByteArray){
 		JSONArray analysedEmotionJsonArray = null;
 
-//		String emotionAnalysisResult = msEmotionApi(imgByteArray);
 		String emotionAnalysisResult = faceDetect(imgByteArray);
 
 		if(emotionAnalysisResult != null){
@@ -114,10 +82,10 @@ public class FaceApiSend {
 
 			if (entity != null) {
 				result = EntityUtils.toString(entity);
-				System.out.println(result);
+				logger.info(result);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			logger.info(e.getMessage());
 		}
 		return result;
 	}
