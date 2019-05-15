@@ -1,13 +1,15 @@
 package org.giraffeb.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.giraffeb.facade.FaceDetectFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -32,14 +34,18 @@ public class WebFaceController {
 	}
 
 
-	@RequestMapping("/")
+	@GetMapping("/")
 	@ResponseBody
+	@ApiOperation(value = "Hello this is home ")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "success request")
+	})
 	public String home() {
 		return "home";
 	}
 
 
-	@RequestMapping("/face")
+	@GetMapping("/face")
 	public String index(Model model) {
 		model.addAttribute("name", "SpringBlog from Millky");
 
@@ -47,7 +53,7 @@ public class WebFaceController {
 	}
 
 
-	@RequestMapping("/faceupload")
+	@PostMapping("/faceupload")
 	public String upload(@RequestParam("file") MultipartFile file, 	Model model) {
 
 		model.addAttribute("file", faceDetectFacade.requestFaceAPIFromMultiPartFile(file));
@@ -56,13 +62,13 @@ public class WebFaceController {
 	}
 
 
-	@RequestMapping("/faceuri")
-    public String getUri(@RequestParam("uri") String uri, Model model){
-
-        model.addAttribute("file",  faceDetectFacade.requestFaceAPIFromUriImage(uri));
-
-	    return "result";
-    }
+//	@RequestMapping("/faceuri")
+//    public String getUri(@RequestParam("uri") String uri, Model model){
+//
+//        model.addAttribute("file",  faceDetectFacade.requestFaceAPIFromUriImage(uri));
+//
+//	    return "result";
+//    }
 
 
 }
