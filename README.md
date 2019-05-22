@@ -41,7 +41,8 @@ MIT라이선스를 사용합니다.
 ---
 
 #### 04. 작동 영상/이미지
-[![IMAGE ALT TEXT HERE](https://i9.ytimg.com/vi/J5qVQ1SDPq8/mq1.jpg?sqp=COyqlOcF&rs=AOn4CLBgI2kfD5CEIjHZSz1bprCMf-ODYw)](https://youtu.be/J5qVQ1SDPq8)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/J5qVQ1SDPq8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 
